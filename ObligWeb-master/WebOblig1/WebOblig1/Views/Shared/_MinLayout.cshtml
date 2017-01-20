@@ -1,0 +1,316 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Innlogget - Nettbank</title>
+    <link href="~/Content/bootstrap.min.css" rel="stylesheet" />
+    <link href="~/Content/nettbankStyles.css" rel="stylesheet" />
+    <link href="~/Content/WebOblig1Style.css" rel="stylesheet" />
+    <script src="~/scripts/jquery-1.10.2.min.js"></script>
+    <script src="~/scripts/jquery.unobtrusive-ajax.min.js"></script>
+    <script src="~/scripts/bootstrap.min.js"></script>
+    <script type="text/javascript">
+        $(function () {
+            $('#nav').affix({
+                offset: {
+                    top: $('header').height() - $('#nav').height()
+                }
+            });
+
+            // Lånt kode for navbar.
+            $('body').scrollspy({ target: '#nav' })
+
+            // Lånt kode for navbar.
+            $('.scroll-top').click(function () {
+                $('body,html').animate({ scrollTop: 0 }, 1000);
+            })
+
+            // Lånt kode for navbar.
+            $('#nav .navbar-nav li>a').click(function () {
+                var link = $(this).attr('href');
+                var posi = $(link).offset().top + 20;
+                $('body,html').animate({ scrollTop: posi }, 700);
+            })
+
+            // Henter fornavn og etternavn til innlogget kunde.
+            $.getJSON("@Url.Action("hentNavn", "MinSide")", function (kunde) {
+                var navn = "Du er logget inn som " + kunde;
+                $("#innloggetSom").html(navn);
+            })
+
+            // Sletting av konto.
+            $("a[data-sletteModal=true]").click(function () {
+                var dato = $(this).data("dato");
+                var bId = $(this).data("id");
+                var fra = $(this).data("fra");
+
+                // Data som sende til div i modalvindu.
+                $("#slettBetaling").html("<table class=\"table table-bordered table-condensed tabell-utseendet\"><tr class=\"tabell-rad-overskrift\">" +
+                    "<th>BetalingsID:</th><th>Dato:</th><th>Fra Konto:</th></tr><tr><td>" + bId +
+                    "</td><td>" + dato + "</td><td>" + fra + "</td></tr></table>");
+
+                // Sletteknappen i det modal vinduet.
+                $("#sletteModalKnapp").click(function () {
+                    $.ajax({
+                        url: '@Url.Action("SlettBetaling", "MinSide")',
+                        data: { bID: bId },
+                        success: function () {
+                            $.ajax({
+                                url: '@Url.Action("VisFremtidigeBetalinger", "MinSide")',
+                                success: function () {
+                                    window.location.reload();
+                                }
+                            });
+                        },
+                        error: function (x, y, z) {
+                            Console.log(x + "\n" + y + "\n" + z + "\n")
+                        }
+                    });
+                })
+            })
+
+            // Henter alle konti.
+            $.ajax({
+                url: "@Url.Action("hentAlleKonti", "MinSide")",
+                type: "GET",
+                dataType: "json",
+                success: function (data) {
+                    visDropDown(data);
+                }
+            })
+
+            // Hendelse på input-felt.
+            $("#tilKonto").change(function () {
+                validerTilKonto();
+            });
+
+             //Hendelse på input-felt.
+            $("#dato").change(function () {
+                validerDato();
+            });
+
+            // Hendelse på input-felt.
+            $("#kid").change(function () {
+                validerKid();
+            });
+
+            // Hendelse på input-felt.
+            $("#belopKroner").change(function () {
+                validerKroner();
+            });
+
+            // Hendelse på input-felt.
+            $("#belopOrer").change(function () {
+                validerOre();
+            });
+
+            // Hendelse på input-felt.
+            $("#melding").change(function () {
+                validerMelding();
+            });
+        })
+
+        // Regex registrer betaling.
+        function validerTilKonto() {
+            var tilK = $("#tilKonto").val();
+            var regex = /^[0-9]{11}$/;
+            var ok = regex.test(tilK);
+            if (ok) {
+                $("#feilTilKonto").html("");
+                return true;
+            }
+            $("#feilTilKonto").html("Kontonummer må være 11 siffer");
+            return false;
+        }
+
+        function validerDato() {
+            var d = $("#dato").val();
+            var regex = /^[0-9\-]{10}$/;
+            var ok = regex.test(d);
+            if (ok) {
+                $("#feilDato").html("");
+                return true;
+            }
+            $("#feilDato").html("Ugyldig dato");
+            return false;
+        }
+
+        // Regex innloggingsfelter.
+        function validerKid() {
+            var k = $("#kid").val();
+            var regex = /^[0-9]{2,25}$/;
+            var ok = regex.test(k);
+            if (ok) {
+                $("#feilKid").html("");
+                return true;
+            }
+            $("#feilKid").html("Ugyldig KID-nummer");
+            return false;
+        }
+
+        function validerKroner() {
+            var k = $("#belopKroner").val();
+            var regex = /^[0-9]+$/;
+            var ok = regex.test(k);
+            if (ok) {
+                $("#feilKroner").html("");
+                return true;
+            }
+            $("#feilKroner").html("Ugyldig beløp");
+            return false;
+        }
+
+        function validerOre() {
+            var ore = $("#belopOrer").val();
+            var regex = /^[0-9]{2}$/;
+            var ok = regex.test(ore);
+            if (ok) {
+                $("#feilOre").html("");
+                return true;
+            }
+            $("#feilOre").html("Ugyldig øre-beløp.");
+            return false;
+        }
+
+        function validerMelding() {
+            var meld = $("#melding").val();
+            var regex = /^[a-zæøåA-ZÆØÅ0-9 .()\-]{2,50}$/;
+            var ok = regex.test(meld);
+            if (ok) {
+                $("#feilMeld").html("");
+                return true;
+            }
+            $("#feilMeld").html("Melding må inneholde minimum to tegn og maks 50.");
+            return false;
+        }
+
+        function validerAlleReg() {
+
+            if (validerTilKonto() & validerDato() & validerKid() & validerKroner() & validerOre() & validerMelding()) {
+                var nyBetaling = {
+                    dato: $("#dato").val(),
+                    fraKonto: $("#mineKonti").val(),
+                    tilKonto: $("#tilKonto").val(),
+                    belopKroner: $("#belopKroner").val(),
+                    belopOrer: $("#belopOrer").val(),
+                    kid: $("#kid").val(),
+                    melding: $("#melding").val()
+                }
+
+                // SjekkSaldo(nyBetaling).
+                betaling(nyBetaling);
+            } else {
+                return false;
+            }
+        }
+
+        // Legger inn en ny betaling.
+        function betaling(nyBetaling) {
+            $.ajax({
+                url: "@Url.Action("NyAjaxBetaling", "MinSide")",
+                type: "POST",
+                data: JSON.stringify(nyBetaling),
+                contentType: "application/json;charset=utf-8",
+                success: function (retur) {
+                    if (retur == "OK") {
+                        window.location.href = "@Url.Action("VisFremtidigeBetalinger","MinSide")";
+                    } else if (retur == "DATOFEIL") {
+                        $("#litenSaldo").html("Ugyldig dato.");
+                        $("#tekniskFeilmodal").modal({ backdrop: "static" });
+                        return false;
+                    
+                    } else if (retur == "UKJENT") {
+                    $("#litenSaldo").html("UKJENT KONTONUMMER");
+                    $("#tekniskFeilmodal").modal({ backdrop: "static" });
+                    return false;
+
+                    }else {
+                        $("#litenSaldo").html("Beløpet er større enn saldo.");
+                        $("#tekniskFeilmodal").modal({ backdrop: "static" });
+                        return false;
+                    }
+                }
+            });
+        }
+
+        function visKontoInfo(kontonummer) {
+            $.getJSON("@Url.Action("hentKontoInfo", "MinSide")", { knr: kontonummer }, function (konto) {
+                var ut = "<table class='table table-bordered table-condensed tabell-utseendet'>" +
+                    "<tr class='tabell-rad-overskrift'><th>Kontonummer</th><th>Kontonavn</th><th>Saldo</th></tr>" +
+                    "<tr><td>" + formaterKontonr(konto.kontonummer) + "</td><td>" + konto.kontonavn + "</td>" +
+                    "<td>" + konto.saldo + "</td></tr></table>";
+
+                $("#infomodal").html(ut);
+                $("#visKontoInfoModal").modal("show");
+            });
+        }
+
+        // Denne fyller dropdown liste av konti.
+        function visDropDown(data) {
+            var ut = "<option>--- Velg konto ---</option>";
+            for (var i in data) {
+                ut += "<option value='" + data[i].kontonummer + "'>" + formaterKontonr(data[i].kontonummer) +
+                    " Kontonavn: " + data[i].kontonavn + " Disp: " + data[i].saldo + ",-</option>";
+            }
+            $("#mineKonti").append(ut);
+        }
+
+        // Formaterer kontonr 1234.56.78910.
+        function formaterKontonr(k) {
+            var knr = k.substring(0, 4) + "." + k.substring(4, 6) + "." +
+                k.substring(6, k.length);
+            return knr;
+        }
+    </script>
+</head>
+
+    <body>
+        <header class="masthead">
+            <div class="container">
+                <div class="row">
+                    <div class="col-sm-6">
+                        <h1>
+                            <a href="#" title="Nettbank i C#">Nettbank i C# <small id="innloggetSom"> </small></a>
+                        </h1>
+                    </div>
+                    <div class="col-sm-6">
+                        <div class="pull-right  hidden-xs">
+                            <ul class="dropdown-menu">
+                                <li><a href="#"><i class="glyphicon glyphicon-chevron-right"></i> Link</a></li>
+                                <li><a href="#"><i class="glyphicon glyphicon-user"></i> Link</a></li>
+                                <li><a href="#"><i class="glyphicon glyphicon-lock"></i> Link</a></li>
+                                <li><a href="#"><i class="glyphicon glyphicon-cog"></i> Link</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </header>
+
+        <div class="navbar navbar-custom navbar-inverse navbar-static-top" id="nav">
+            <div class="container">
+                <div class="navbar-header">
+                    <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </button>
+                </div>
+                <div class="collapse navbar-collapse">
+                    <ul class="nav navbar-nav nav-justified">
+                        <li><a href="@Url.Action("KontoOversikt", "MinSide")">Min oversikt</a></li>
+                        <li><a href="@Url.Action("NyBetaling","MinSide")">Betaling</a></li>
+                        <li><a href="@Url.Action("VisFremtidigeBetalinger","MinSide")">Forfallsoversikt</a></li>
+                        <li><a href="@Url.Action("VisBetalinger","MinSide")">Utførte betalinger</a></li>
+                        <li><a href="@Url.Action("LoggUt", "MinSide")"><span class="glyphicon glyphicon-log-in"></span> Logg ut</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        @RenderBody()
+    </body>
+</html>
+
+
+

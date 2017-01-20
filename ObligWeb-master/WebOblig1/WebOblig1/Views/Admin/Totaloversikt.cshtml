@@ -1,0 +1,86 @@
+﻿@model WebOblig1.Model.DomenePerson
+
+@{
+    Layout = Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+@using (Html.BeginForm()) {
+    Html.AntiForgeryToken();
+    <div class="container" style="border:1px solid #0094ff; margin-top:1.5em; margin-bottom:1.5em;">
+        <h2 class="text-center">Personalia</h2>
+        <div class="form-group col-md-6">
+            @Html.LabelFor(model => model.fornavn)
+            @Html.EditorFor(model => model.fornavn, new {
+           htmlAttributes = new {
+               @class = "form-control",
+               placeholder = "@model.fornavn", disabled = "disabled", @readonly = "readonly"
+           }
+       })
+        </div>
+
+        <div class="form-group col-md-6">
+            @Html.LabelFor(model => model.etternavn)
+            @Html.EditorFor(model => model.etternavn, new {
+           htmlAttributes = new {
+               @class = "form-control",
+               placeholder = "@model.etternavn", disabled = "disabled", @readonly = "readonly"
+           }
+       })
+        </div>
+        <div class="form-group col-md-3">
+            @Html.LabelFor(model => model.adresse)
+            @Html.EditorFor(model => model.adresse, new {
+           htmlAttributes = new {
+               @class = "form-control", placeholder = "@model.adresse",
+               disabled = "disabled", @readonly = "readonly"
+           }
+       })
+        </div>
+        <div class="form-group col-md-1">
+            @Html.LabelFor(model => model.postnummer)
+            @Html.EditorFor(model => model.postnummer, new {
+           htmlAttributes = new {
+               @class = "form-control", placeholder = "@model.postnummer",
+               disabled = "disabled", @readonly = "readonly"
+           }
+       })
+        </div>
+        <div class="form-group col-md-2">
+            @Html.LabelFor(model => model.poststed)
+            @Html.EditorFor(model => model.poststed, new {
+           htmlAttributes = new {
+               @class = "form-control", placeholder = "@model.poststed",
+               disabled = "disabled", @readonly = "readonly"
+           }
+       })
+        </div>
+        <div class="form-group col-md-3">
+            @Html.LabelFor(model => model.epost)
+            @Html.EditorFor(model => model.epost, new {
+           htmlAttributes = new {
+               @class = "form-control", placeholder = "@model.epost",
+               disabled = "disabled", @readonly = "readonly"
+           }
+       })
+        </div>
+        <div class="form-group col-md-3">
+            @Html.LabelFor(model => model.telefonnummer)
+            @Html.EditorFor(model => model.telefonnummer, new {
+           htmlAttributes = new {
+               @class = "form-control", placeholder = "@model.telefonnummer",
+               disabled = "disabled", @readonly = "readonly"
+           }
+       })
+        </div>
+    </div>
+    <div class="container" style="border:1px solid #0094ff; margin-top:1.5em; margin-bottom:1.5em;">
+        <h2 class="text-center">Kontooversikt</h2>
+        @foreach (var k in Model.konti) {
+            @Html.Partial("KontoInfo", k)
+        }
+        <div class="form-group col-md-12">
+            <a href="@Url.Action("HentEnPerson", "Admin")" class="btn btn-danger" title="Avslutt">Avslutt</a></div>
+        </div>
+}
+
+
+   

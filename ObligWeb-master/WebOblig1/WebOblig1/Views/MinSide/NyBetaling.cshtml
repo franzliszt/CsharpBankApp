@@ -1,0 +1,77 @@
+﻿@{
+    Layout = "~/Views/Shared/_MinLayout.cshtml";
+}
+@Html.Partial("TekniskFeilModal")
+
+<div class="container" style="background-color:#eaeaea">
+    <form method="post">
+        <div class="col-md-12">
+            <h3>Registrer en ny betaling</h3>
+            <hr />
+            <div class="col-xs-6 col-sm-6 col-md-6">
+                <div class="form-group">
+                    <label>Fra kontonummer</label>
+                    <select class="form-control" id="mineKonti"></select>
+                </div>
+            </div>
+
+            <div class="col-xs-6 col-sm-6 col-md-6">
+                <div class="form-group">
+                    <label>Til kontonummer</label>
+                    <input type="text" class="form-control" id="tilKonto" placeholder="Til kontonummer">
+                <div class="form-group text-danger">
+                    <p id="feilTilKonto"></p>
+                </div>
+                </div>                
+            </div>
+
+                <div class="form-group col-lg-3">
+                    <label>Dato</label>
+                    <input type="date" class="form-control" id="dato">
+                    <div class="form-group text-danger">
+                        <p id="feilDato"></p>
+                    </div>
+                </div>
+                        
+                <div class="form-group col-lg-3">
+                    <label>KID</label>
+                    <input type="text" class="form-control" id="kid" placeholder="KID">
+                    <div class="form-group text-danger">
+                        <p id="feilKid"></p>
+                    </div>
+                </div>
+
+
+                <div class="form-group col-lg-2">
+                    <label>Kroner</label>
+                    <input type="text" class="form-control" id="belopKroner" placeholder="Kroner">
+                    <div class="form-group text-danger">
+                        <p id="feilKroner"></p>
+                    </div>
+                </div>
+
+
+                <div class="form-group col-lg-1">
+                    <label>Øre</label>
+                    <input type="text" class="form-control" id="belopOrer" value="00">
+                    <div class="form-group text-danger">
+                        <p id="feilOre"></p>
+                    </div>
+                </div>
+
+            <div class="form-group col-lg-12"></div>
+                <div class="form-group col-lg-6">
+                    <label>Melding</label>
+                    <input type="text" class="form-control" id="melding" placeholder="Melding">
+                    <div class="form-group text-danger">
+                        <p id="feilMeld"></p>
+                    </div>
+                </div>
+            
+                <div class="form-group col-lg-12">
+                    <a href="" onclick="validerAlleReg()" class="btn knappLagre" id="enNyBet" data-toggle="modal" data-tekniskFeilmodal="true">Lagre</a>
+                    <a id="btn-fblogin" href="@Url.Action("KontoOversikt", "MinSide")" class="btn knappAvbryt">Avbryt</a>
+                </div>
+            </div>
+    </form>
+</div>

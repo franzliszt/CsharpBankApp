@@ -1,0 +1,41 @@
+﻿@model WebOblig1.Model.DomenePerson
+
+@{
+    Layout = "~/Views/Shared/_MinLayout.cshtml";
+}
+
+    <div class="container">
+        <h2 class="overskrift-h2">Min Oversikt</h2>
+        <div>
+            <div class="col-sm-4 disponibelt">
+                <h3>Disponibelt:</h3>
+                <h3 style="margin-top:0;margin-bottom:0;">kr @{
+                    double sum = 0;
+                    foreach (var konto in Model.konti) { sum += konto.saldo; }
+                    @sum
+                },-</h3>
+            </div>
+            <div class="col-sm-4 disponibelt2">
+                <h3>Trukket i kreditt:</h3>
+                <h3 style="margin-top:0;margin-bottom:0;">kr 0 ,-</h3></div>
+            <div class="col-sm-4 disponibelt3">
+                <h3>Sum lån:</h3>
+                <h3 style="margin-top:0;margin-bottom:0;">kr 0 ,-</h3></div>
+        </div>
+        <div>
+            <table class="table tables-bordered tabell-utseendet">
+                <tr class="tabell-rad-overskrift">
+                    <th>Kontonavn:</th>
+                    <th>Kontonummer:</th>
+                    <th>Saldo:</th>
+                </tr>
+                @foreach (var konto in Model.konti) {
+                    <tr class="td-hover">
+                        <td>@konto.kontonavn</td>
+                        <td>@konto.kontonummer</td>
+                        <td>@konto.saldo</td>
+                    </tr>
+                }
+            </table>
+        </div>
+    </div>

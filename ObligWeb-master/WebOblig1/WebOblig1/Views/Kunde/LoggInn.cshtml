@@ -1,0 +1,105 @@
+﻿@model WebOblig1.Model.DomenePerson
+
+@Html.Partial("DummyIDModal")
+
+@using (Html.BeginForm()) {
+    @Html.AntiForgeryToken()
+
+    <div class="container">
+        <hr />
+        <div id="logginnSkjema" style="margin-top:50px;" class="mainbox col-md-6 col-md-offset-3 col-sm-8 col-sm-offset-2">
+            <div class="panel panel-info">
+                <div class="panel-heading">
+                    <div class="panel-title">Logg inn i nettbank</div>
+                    <div style="float:right; font-size: 80%; position: relative; top:-10px"><a href="#">Glemt passord?</a></div>
+                </div>
+                <div style="padding-top:30px" class="panel-body">
+                    <div style="display:none" id="login-alert" class="alert alert-danger col-sm-12"></div>
+                    <form id="loginform" class="form-horizontal" role="form" method="post">
+                        <div style="margin-bottom: 25px" class="input-group">
+                            <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
+                            @Html.EditorFor(model => model.personnummer, new { htmlAttributes = new { @class = "form-control", @id = "persnrID", placeholder = "Personnummer" } })
+                        </div>
+                        <div style="margin-bottom: 35px" class="text-danger">
+                            <p id="feilPnr"></p>
+                        </div>
+                        <div style="margin-bottom: 25px" class="input-group">
+                            <span class="input-group-addon"><i class="glyphicon glyphicon-lock"></i></span>
+                            @Html.EditorFor(model => model.passord, new { htmlAttributes = new { @class = "form-control", @id = "passordID", placeholder = "Passord" } })
+                        </div>
+                        <div style="margin-bottom: 35px" class="text-danger">
+                            <p id="feilPassord"></p>
+                        </div>
+                        <div style="margin-top:10px" class="form-group">
+                            <!-- Knapper -->
+                            <div class="col-sm-12 controls">
+                                <a href="" onclick="validerAlle()" class="btn btn-md btn-success" id="dummyknapp" data-toggle="modal" data-dummymodal="true" title="Logg inn som kunde">
+                                    <span class="glyphicon glyphicon-log-in"></span>
+                                </a>
+                                <a id="btn-fblogin" href="@Url.Action("Index", "Kunde")" class="btn btn-danger" title="Til forside">
+                                    <span class="glyphicon glyphicon-home"></span> 
+                                </a>
+                            </div>
+
+                        </div>
+                        <div class="form-group">
+                            <div class="col-md-12 control">
+                                <div style="border-top: 1px solid#888; padding-top:15px; font-size:85%">
+                                    <a href="#" onClick="$('#logginnSkjema').hide(); $('#adminSkjema').show()">
+                                        <h3>Logg inn som administrator</h3>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        <!--Registreringsskjema-->
+        <div id="adminSkjema" style="display:none; margin-top:50px" class="mainbox col-md-6 col-md-offset-3 col-sm-8 col-sm-offset-2">
+            <div class="panel panel-info">
+                <div class="panel-heading">
+                    <div class="panel-title">Logg inn som admin</div>
+                    <div style="float:right; font-size: 85%; position: relative; top:-10px">
+                        <a id="signinlink" href="#" onclick="$('#adminSkjema').hide(); $('#logginnSkjema').show()">Logg inn</a>
+                    </div>
+                </div>
+                <div class="panel-body">
+                    <form id="signupform" class="form-horizontal" role="form">
+
+                        <div id="signupalert" style="display:none" class="alert alert-danger">
+                            <p>Error:</p>
+                            <span></span>
+                        </div>
+                        <div style="margin-bottom: 25px" class="input-group">
+                            <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
+                            @Html.EditorFor(model => model.personnummer, new { htmlAttributes = new { @class = "form-control", @id = "persnrAdminID", placeholder = "Personnummer" } })
+                        </div>
+                        <div style="margin-bottom: 35px" class="text-danger">
+                            <p id="feilPnr"></p>
+                        </div>
+                        <div style="margin-bottom: 25px" class="input-group">
+                            <span class="input-group-addon"><i class="glyphicon glyphicon-lock"></i></span>
+                            @Html.EditorFor(model => model.passord, new { htmlAttributes = new { @class = "form-control", @id = "passordAdminID", placeholder = "Passord" } })
+                        </div>
+                        <div style="margin-bottom: 35px" class="text-danger">
+                            <p id="feilPassord"></p>
+                        </div>
+                        <div style="margin-top:10px" class="form-group">
+                            <!-- Knapper -->
+                            <div class="col-sm-12 controls">
+                                <a href="" onclick="validerAlle('admin')" 
+                                   class="btn btn-md btn-success" id="dummyknapp" data-toggle="modal" data-dummymodal="true" title="Logg inn som administrator"><span class="glyphicon glyphicon-log-in"></span></a>
+                                <a id="btn-fblogin" href="@Url.Action("Index", "Kunde")" class="btn btn-danger " title="Til forside"><span class="glyphicon glyphicon-home"></span></a>
+                            </div>
+
+                        </div>
+
+                       
+                      </form>
+                </div>
+            </div>
+        </div>
+    </div>
+}

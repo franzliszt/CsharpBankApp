@@ -1,0 +1,63 @@
+﻿@model List<WebOblig1.Model.DomeneBetaling>
+
+@{
+    Layout = "~/Views/Shared/_MinLayout.cshtml";
+}
+@Html.Partial("KontoInfoModal")
+<div class="container">
+    <h2 class="overskrift-h2">Utførte Betalinger</h2>
+    <table class="table tables-bordered tabell-utseendet">
+        <tr class="tabell-rad-overskrift">
+            <th>
+                @Html.DisplayNameFor(model => model[0].betalingsId)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model[0].dato)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model[0].fraKonto)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model[0].tilKonto)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model[0].belopKroner)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model[0].kid)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model[0].melding)
+            </th>
+        </tr>
+
+        @foreach (var item in Model) {
+            <tr class="td-hover">
+                <td>
+                    @Html.DisplayFor(modelItem => item.betalingsId)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.dato)
+                </td>
+                <td>
+                    <a class="kontoLink" id="@item.fraKonto" href="#" onclick="visKontoInfo(this.id)">
+                        @Html.DisplayFor(modelItem => item.fraKonto)
+                    </a>
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.tilKonto)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.belopKroner)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.kid)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.melding)
+                </td>
+            </tr>
+        }
+
+    </table>
+</div>

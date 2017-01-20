@@ -1,0 +1,217 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Nettbanken</title>
+    <link href="~/Content/bootstrap.min.css" rel="stylesheet" />
+    <link href="~/Content/nettbankStyles.css" rel="stylesheet" />
+    <link href="~/Content/WebOblig1Style.css" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css?family=Roboto|Roboto+Condensed" rel="stylesheet">
+    <script src="~/scripts/jquery-1.10.2.min.js"></script>
+    <script src="~/scripts/jquery.unobtrusive-ajax.min.js"></script>
+    <script src="~/scripts/bootstrap.min.js"></script>
+    <script type="text/javascript">
+
+        $(function () {
+            $('#nav').affix({
+                offset: {
+                    top: $('header').height() - $('#nav').height()
+                }
+            });
+
+            // Lånt.
+            $('body').scrollspy({ target: '#nav' })
+
+            // Lånt.
+            $('.scroll-top').click(function () {
+                $('body,html').animate({ scrollTop: 0 }, 1000);
+            })
+
+            // Lånt.
+            $('.carousel').carousel({
+                interval: 10000
+            })
+
+            // Lånt.
+            $('#nav .navbar-nav li>a').click(function () {
+                var link = $(this).attr('href');
+                var posi = $(link).offset().top + 20;
+                $('body,html').animate({ scrollTop: posi }, 700);
+            });
+
+            // Hendelse på innloggingsfelt.
+            $("#persnrID").change(function () {
+                validerPersonnummer();
+            })
+
+            $("#passordID").change(function () {
+                validerPassord();
+            })
+        })
+
+        // Regex innloggingsfelter.
+        function validerPersonnummer(rolle) {
+            var pnr = (rolle == "admin") ? $("#persnrAdminID").val() : $("#persnrID").val();
+            var regex = /^[0-9]{11}$/;
+            var ok = regex.test(pnr);
+            if (ok) {
+                $("#feilPnr").html("");
+                return true;
+            }
+            $("#feilPnr").html("Ugyldig personnummer");
+            return false;
+        }
+
+        function validerPassord(rolle) {
+            var p = (rolle == "admin") ? $("#passordAdminID").val() : $("#passordID").val();
+            var regex = /^[a-zA-Z0-9]{4,12}$/;
+            var ok = regex.test(p);
+            if (ok) {
+                $("#feilPassord").html("");
+                return true;
+            }
+            $("#feilPassord").html("Ugyldig passord");
+            return false;
+        }
+
+        function validerAlle(rolle) {
+            if (validerPersonnummer(rolle) & validerPassord(rolle)) {
+
+                var persnr = (rolle == "admin") ? $("#persnrAdminID").val() : $("#persnrID").val();
+                var pass = (rolle == "admin") ? $("#passordAdminID").val() : $("#passordID").val();
+
+
+                var person = {
+                    personnummer: persnr,
+                    passord: pass
+                }
+                    
+            }
+            if (rolle == "admin") {
+                sjekkInnloggingAdmin(person);
+            }
+            else {
+                sjekkInnlogging(person);
+            }
+        }
+
+        // Sjekker innlogging.
+        function sjekkInnlogging(personInn) {
+            $.ajax({
+                url: "@Url.Action("LoggInnAjax", "Kunde")",
+                type: "POST",
+                data: JSON.stringify(personInn),
+                contentType: "application/json;charset=utf-8",
+                success: function (retur) {
+                    if (retur == "OK") {
+                        $("#dummykode").val("");
+                        $("#feilKode").html("");
+                        $("#dummymodal").modal({ backdrop: "static" });
+                        // Knappen i det modal vinduet.
+                        $("#bekreftModalKnapp").click(function () {
+                            validerDummyID($("#dummykode").val());
+                        });
+                    } else {
+                        $("#litenSaldo").html("Du er ikke registrert som kunde i nettbanken");
+                        $("#tekniskFeilmodal").modal("show");
+                    }
+                }
+            })
+        }
+
+        // Sjekker innlogging - Admin.
+        function sjekkInnloggingAdmin(personInn) {
+            $.ajax({
+                url: "@Url.Action("LoggInnAdmin", "Admin")",
+                type: "POST",
+                data: JSON.stringify(personInn),
+                contentType: "application/json;charset=utf-8",
+                success: function (retur) {
+                    if (retur == "OK") {
+                        window.location.href = "@Url.Action("KundeAdministrasjon", "Admin")";
+                    } else {
+                        $("#litenSaldo").html("Du er ikke registrert som administrator i nettbanken");
+                        $("#tekniskFeilmodal").modal("show");
+                    }
+            }
+        })
+        }
+
+        // Sjekker engangskoden skrevet som dummyid i modalt vindu.
+        function validerDummyID(kode) {
+            $.ajax({
+                url: "@Url.Action("SjekkDummyID", "Kunde")?id=" + kode,
+                type: "GET",
+                dataType: "json",
+                success: function (retur) {
+                    if (retur == "OK") {
+                        $("#dummymodal").modal("hide");
+                        window.location.href = "@Url.Action("KontoOversikt", "MinSide")";
+                    } else {
+                        $("#feilKode").html("Feil engangskode. Skriv 12345");
+                    }
+                }, error: function () {
+                    $("#tekniskFeilmodal").modal("show");
+                }
+            })
+        }
+    </script>
+</head>
+
+    <body>
+        @Html.Partial("TekniskFeilModal")
+        <header class="masthead">
+            <div class="container">
+                <div class="row">
+                    <div class="col-sm-6">
+                        <h1>
+                            <a href="#" title="Nettbank i C#">Nettbank i C#</a>
+                                <p class="lead">Her får du lån.</p>
+                        </h1>
+                    </div>
+                    <div class="col-sm-6">
+                        <div class="pull-right  hidden-xs">
+                            <ul class="dropdown-menu">
+                                <li><a href="#"><i class="glyphicon glyphicon-chevron-right"></i> Link</a></li>
+                                <li><a href="#"><i class="glyphicon glyphicon-user"></i> Link</a></li>
+                                <li><a href="#"><i class="glyphicon glyphicon-lock"></i> Link</a></li>
+                                <li><a href="#"><i class="glyphicon glyphicon-cog"></i> Link</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </header>
+
+        <div class="navbar navbar-custom navbar-inverse navbar-static-top" id="nav">
+            <div class="container">
+                <div class="navbar-header">
+                    <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </button>
+                </div>
+                <div class="collapse navbar-collapse">
+                    <ul class="nav navbar-nav nav-justified">
+                        <li><a href="">Hjem</a></li>
+                        <li><a href="#section2">Låne</a></li>
+                        <li>
+                            <a href="#section2">Spare</a>
+                        </li>
+                        <li><a href="#section3">Om oss</a></li>
+                        <li><a href="#section5">Kontakt oss</a></li>
+                        <li><a href=""><span class="glyphicon glyphicon-user"></span>Bli Kunde</a></li>
+                        <li><a href="@Url.Action("LoggInn", "Kunde")"><span class="glyphicon glyphicon-log-in"></span> Logg Inn</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        @RenderBody()
+    
+    </body>
+</html>
+
+
+

@@ -1,0 +1,457 @@
+﻿@import url(http://fonts.googleapis.com/css?family=Kreon:400,700);
+
+html,
+body {
+  height: 100%;
+  /* The html and body elements cannot have any padding or margin. */
+  -webkit-font-smoothing: antialiased;
+  font-family: 'Roboto', sans-serif;
+  font: 1em;
+  /*background-color: #474747;*/
+}
+
+#adminBody {
+     background-color: #eaeaea;
+}
+
+.row {
+  margin-left:0px;
+  margin-right:0px;
+}
+
+/* Wrapper for page content to push down footer */
+#wrap {
+  min-height: 100%;
+  height: auto !important;
+  height: 100%;
+  /* Negative indent footer by its height */
+  margin: 0 auto -60px;
+  /* Pad bottom by footer height */
+  padding: 0 0 60px;
+}
+
+/* Set the fixed height of the footer here */
+#footer {
+  height: 60px;
+  background-color:#414141;
+  margin-top:50px;
+  padding-top:20px;
+  padding-bottom:20px;
+}
+
+
+/* Custom page CSS
+-------------------------------------------------- */
+
+#wrap > .container {
+  padding: 60px 15px 0;
+}
+.container .credit {
+  margin: 20px 0;
+}
+
+#footer2 {
+    position:absolute;
+   bottom:0;
+   width:100%;
+   height:60px;
+  background-color:#414141;
+}
+
+#footer a {
+  color:#efefef;
+}
+
+h1,h2,h3,h4 {
+  font-family: 'Roboto Condensed', sans-serif;
+  vertical-align:middle;
+}
+
+header.carousel {
+    height: 50%;
+    margin-bottom:0;
+}
+
+header.carousel .item,
+header.carousel .item.active,
+header.carousel .carousel-inner {
+    height: 100%;
+}
+
+header.carousel .fill {
+    width: 100%;
+    height: 100%;
+    background-position: center;
+    background-size: cover;
+}
+
+.masthead{
+  background: #4B77BE;
+  height: 150px;
+  color:#eaeaea;
+}
+
+.masthead h1,.masthead h2,.masthead h3 a,.masthead a,.masthead a:hover {
+  color:#eaeaea;
+  /*font-weight:800;*/
+  text-decoration:none;
+  
+}
+
+.masthead h3 {
+  background: #ff0000;
+  padding:10px;
+  border-radius:3px;
+  font-size:34px;
+  padding:12px 10px 6px 10px;
+}
+
+.masthead .dropdown-menu {
+  top:74px;
+  background: #ffcc33;
+  border-width:0;
+}
+
+h1 {
+  font-size:50px;
+}
+
+#nav {
+  width: 100%;
+  position:static;
+  top:-32px;
+}
+
+#nav.affix {
+   position: fixed;
+   top: 0;
+   z-index:10;
+   -webkit-transition: all .6s ease-in-out;
+}
+
+#footer > .container {
+  
+}
+
+@media (min-width: 767px) {
+  .navbar-nav.nav-justified > li{
+      float:none;
+  }
+}
+.navbar-inverse {
+  margin-bottom:0; 
+}  
+  
+/* customize nav style */
+.navbar-custom {
+    background-color: #111111;
+    opacity:0.8;
+    text-transform:uppercase;
+    border-width:0;
+}
+.navbar-custom  .navbar-nav>li>a {
+	color: #ddd;
+}
+.navbar-custom  .navbar-nav li>a:hover, .navbar-nav li .open, .navbar-custom .navbar-nav .active a  {
+    
+    transition: 0.5s;
+    /*background-color: #eaeaea; */
+    /*color: #ef7d7d; */
+    color: #4183D7;
+    
+}
+.navbar-custom .dropdown-menu{
+	right:0;
+}
+.navbar-custom .navbar-nav>.dropdown>a .caret {
+	border-top-color: #999;
+	border-bottom-color: #999;
+}
+
+.navbar-collapse.in { /*3.0.2 bug workaround*/
+    overflow-y: visible;
+}
+
+.navbar-toggle {
+	outline:0;
+}
+
+.divider {
+	height:100px;
+}
+
+.panel {
+	border-width:0;
+}
+
+@media (max-width: 768px) {
+	header {
+		height: 95px;
+	}
+}
+
+#map-canvas {
+  	width: 100%; 
+  	height: 300px;
+	margin: 0;
+	padding: 15px;
+}
+
+.scroll-top {
+   position:fixed;
+   bottom:0;
+   right:6%;
+   z-index:100;
+   background: #ffcc33;
+   font-size:24px;
+   border-top-left-radius:3px;
+   border-top-right-radius:3px;
+}
+.scroll-top a:link,.scroll-top a:visited {
+  color:#222;
+} 
+ 
+
+section {
+  color: #ffffff;
+  min-height: 400px;
+  height: auto !important;
+  height: 100%;
+  padding-top:100px;
+}
+
+.bg-1 {
+	background: url('https://www.oppfinans.no/laane-penger/_image/101076/label/large.jpeg?_encoded=2f66666666666678302f30382f3b2934323031286874646977656c616373&_ts=14d2430aab6') no-repeat center center fixed; 
+    -webkit-background-size: cover;
+  	-moz-background-size: cover;
+  	-o-background-size: cover;
+  	background-size: cover;
+}
+
+.bg-2 {
+	background: url('http://www.bootply.com/assets/example/bg_5.jpg') no-repeat center center fixed; 
+    -webkit-background-size: cover;
+  	-moz-background-size: cover;
+  	-o-background-size: cover;
+  	background-size: cover;
+}
+
+.bg-3 {
+	background: url('http://www.bootply.com/assets/example/bg_6.jpg') no-repeat center center fixed; 
+    -webkit-background-size: cover;
+  	-moz-background-size: cover;
+  	-o-background-size: cover;
+  	background-size: cover;
+}
+
+.bg-4 {
+	padding-top:30px;
+	background-image: -webkit-gradient(linear, left top, left bottom, from(rgba(20,20,20,0.2)),to(rgba(255,255,255,0)), color-stop(1,#000));
+}
+
+/* KNAPPER */
+.knapp-fare {
+    background-color: #A52A2A;
+    color: #eaeaea;
+}
+
+.knappLagre {
+    background-color: #2E8B57;
+    color:#eaeaea;
+    border-radius:10px;
+}
+
+.knappAvbryt {
+    background-color: #C71585;
+    color:#eaeaea;
+     border-radius:10px;
+}
+
+.adminTabell {
+    background-color: #111111;
+    color:#eaeaea;
+}
+.adminTabell2 {
+    background-color:#4B77BE;
+    color:#eaeaea;
+}
+
+.AdminKontoLink {
+    color:red;
+    text-decoration:none;
+    font-weight:bold;
+}
+
+.AdminKontoLink:hover {
+    color:#eaeaea;
+}
+/*Setter farge til konto-linker*/
+.kontoLink {
+    color:black;
+    text-decoration:underline;
+}
+.kontoLink:hover {
+    color: red;
+}
+
+.knapp-endre {
+    background-color: #001f3f;
+    color: #eaeaea;
+}
+
+.knapp-endre:hover {
+    background-color: #001f3f;
+    color: #eaeaea;
+}
+
+/* TABELLER */
+
+.tabell-rad-overskrift{
+    background-color: #4183D7;
+    color: #eaeaea;
+}
+
+.td-hover:hover{
+    background-color: #6c7a89;
+    color: white;
+}
+
+.td-hover:hover a {
+    color:white;
+}
+
+.tabell-utseendet {
+    background-color: #DADFE1;
+    margin-left:0;
+    margin-right:0;
+}
+
+.overskrift-h2 {
+    font-family: 'Roboto Condensed', sans-serif;
+    font-size: 2.5em;
+}
+
+#flyt-til-hoyre {
+    float: right;
+}
+
+.disponibelt{
+    background-color: #89C4F4;
+}
+
+.disponibelt2{
+    background-color: #4B77BE;
+}
+
+.disponibelt3{
+    background-color: #5C97BF;
+}
+
+.testcontainer{
+    background-color: yellow;
+    
+}
+
+.tabell-hodet {
+    border-bottom: 1px solid black;
+}
+
+#innloggetSom {
+    font-size: 0.3em;
+    color: white;
+}
+
+
+/*
+
+    HUSK DISSE FARGENE TIL VIDERE BRUK:
+    ROSA SKRIFT: #ef7d7d
+    BLÅ: #4183D7
+
+*/
+
+/* Denne koden er lånt fra internett */
+.center-block {
+    float: none;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.input-group .icon-addon .form-control {
+    border-radius: 0;
+}
+
+.icon-addon {
+    position: relative;
+    color: #555;
+    display: block;
+}
+
+.icon-addon:after,
+.icon-addon:before {
+    display: table;
+    content: " ";
+}
+
+.icon-addon:after {
+    clear: both;
+}
+
+.icon-addon.addon-md .glyphicon,
+.icon-addon .glyphicon, 
+.icon-addon.addon-md .fa,
+.icon-addon .fa {
+    position: absolute;
+    z-index: 2;
+    left: 10px;
+    font-size: 14px;
+    width: 20px;
+    margin-left: -2.5px;
+    text-align: center;
+    padding: 10px 0;
+    top: 1px
+}
+
+.icon-addon.addon-lg .form-control {
+    line-height: 1.33;
+    height: 46px;
+    font-size: 18px;
+    padding: 10px 16px 10px 40px;
+}
+
+.icon-addon.addon-sm .form-control {
+    height: 30px;
+    padding: 5px 10px 5px 28px;
+    font-size: 12px;
+    line-height: 1.5;
+}
+
+.icon-addon.addon-lg .fa,
+.icon-addon.addon-lg .glyphicon {
+    font-size: 18px;
+    margin-left: 0;
+    left: 11px;
+    top: 4px;
+}
+
+.icon-addon.addon-md .form-control,
+.icon-addon .form-control {
+    padding-left: 30px;
+    float: left;
+    font-weight: normal;
+}
+
+.icon-addon.addon-sm .fa,
+.icon-addon.addon-sm .glyphicon {
+    margin-left: 0;
+    font-size: 12px;
+    left: 5px;
+    top: -1px
+}
+
+.icon-addon .form-control:focus + .glyphicon,
+.icon-addon:hover .glyphicon,
+.icon-addon .form-control:focus + .fa,
+.icon-addon:hover .fa {
+    color: #2580db;
+}

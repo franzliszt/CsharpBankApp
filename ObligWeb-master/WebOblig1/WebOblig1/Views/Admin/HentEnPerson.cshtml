@@ -1,0 +1,28 @@
+﻿@model WebOblig1.Model.DomenePerson
+
+@{ 
+    Layout = Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+@using (Html.BeginForm("Totaloversikt", "Admin")) {
+        @Html.AntiForgeryToken()
+    <h2 class="text-center">Transaksjonsadministrasjon</h2>
+    <div class="container">
+        @if (TempData["KUNDEN"] != null) {
+        <h4 class="text-danger"><strong>FEIL:</strong> @TempData["KUNDEN"].ToString()</h4>
+        }
+    </div>
+    <div class="container" style="background:#707070; margin-top:1.5em; color:white;">
+        
+    <div class="form-group col-md-12">
+        <h3>Hent kunden ved å skrive inn et personnummer</h3></div>
+        <div class="form-group col-md-4">
+            <input type="text" name="pnr" class="form-control" placeholder="Personnummer" />
+        </div>
+                <div class="form-group col-md-12">
+                <button type="submit" title="Hent kunde" name="pnr" class="btn btn-info">
+                    <span class="glyphicon glyphicon-folder-open"></span></button>
+            </div>
+    </div>
+}
+

@@ -1,0 +1,71 @@
+﻿@model List<WebOblig1.Model.DomeneBetaling>
+
+@{
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+<div class="container">
+    <h2>Transaksjoner</h2>
+    <div class="panel-group" id="accordion">
+        @foreach (var betaling in Model) {
+
+            <div class="panel panel-default">
+                <div class="panel-heading">
+
+                    <a data-toggle="collapse" data-parent="#accordion" href="#@betaling.betalingsId">
+                        <table class="table table-bordered">
+                            <tr>
+                                <td>@betaling.dato</td>
+                                <td>@betaling.fraKonto</td>
+                                <td>@betaling.tilKonto</td>
+                            </tr>
+                        </table>
+                    </a>
+                </div>
+
+                <div id="@betaling.betalingsId" class="panel-collapse collapse">
+                    <div class="panel-body">
+                        <table class="table table-bordered">
+                            <tr>
+                                <th>Dato</th>
+                                <th>Fra konto</th>
+                                <th>Til konto</th>
+                                <th>Beløp</th>
+                                <th>KID</th>
+                                <th>Melding</th>
+                            </tr>
+                            <tr>
+                                <td>@betaling.dato</td>
+                                <td>@betaling.fraKonto</td>
+                                <td>@betaling.tilKonto</td>
+                                <td>@betaling.belopKroner</td>
+                                <td>@betaling.kid</td>
+                                <td>@betaling.melding</td>
+                                <td>
+                                    @Html.ActionLink(" ", "EndreBetalingAdmin", "Admin", new { bId = betaling.betalingsId },
+                                        new { @class = "btn knapp-endre glyphicon glyphicon-edit", @title = "Endre" })
+                                    @Html.ActionLink(" ", "SlettBetalingAdmin", "Admin",  new { bId = betaling.betalingsId,
+                                        kontoNr = betaling.fraKonto }, new { @class = "btn btn-danger glyphicon glyphicon-trash", @title = "Slett" })
+                                </td>
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+</div>
+
+@using (Html.BeginForm("Totaloversikt", "Admin")) {
+    @Html.AntiForgeryToken()
+    
+    <div class="container">
+        <div class="form-group col-md-6">
+            <input type="hidden" name="pnr" class="form-control" value="@Session["kunden"]" />
+        </div>
+
+        <div class="form-group col-md-12">
+                <input type="submit" value="Tilbake til kundens oversikt" name="pnr" class="btn btn-info" title="Tilbake" />
+        </div>
+    </div>
+}

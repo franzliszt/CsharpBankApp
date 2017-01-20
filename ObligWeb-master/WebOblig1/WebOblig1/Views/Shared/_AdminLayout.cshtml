@@ -1,0 +1,88 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Innlogget - Nettbank</title>
+    <link href="~/Content/bootstrap.min.css" rel="stylesheet" />
+    <link href="~/Content/nettbankStyles.css" rel="stylesheet" />
+    <link href="~/Content/WebOblig1Style.css" rel="stylesheet" />
+    <script src="~/scripts/jquery-1.10.2.min.js"></script>
+    <script src="~/scripts/jquery.unobtrusive-ajax.min.js"></script>
+    <script src="~/scripts/bootstrap.min.js"></script>
+    <script type="text/javascript">
+        $(function () {
+            $('#nav').affix({
+                offset: {
+                    top: $('header').height() - $('#nav').height()
+                }
+            });
+
+            // Lånt kode for navbar.
+            $('body').scrollspy({ target: '#nav' })
+
+            // Lånt kode for navbar.
+            $('.scroll-top').click(function () {
+                $('body,html').animate({ scrollTop: 0 }, 1000);
+            })
+
+            // Lånt kode for navbar.
+            $('#nav .navbar-nav li>a').click(function () {
+                var link = $(this).attr('href');
+                var posi = $(link).offset().top + 20;
+                $('body,html').animate({ scrollTop: posi }, 700);
+            })
+
+        })
+    </script>
+</head>
+
+<body id="adminBody">
+    <header class="masthead">
+        <div class="container">
+            <div class="row">
+                <div class="col-sm-6">
+                    <h1>
+                        <a href="#" title="Nettbank i C#">Nettbank i C# <small id="innloggetSom"> </small></a>
+                    </h1>
+                </div>
+                <div class="col-sm-6">
+                    <div class="pull-right  hidden-xs">
+                        <ul class="dropdown-menu">
+                            <li><a href="#"><i class="glyphicon glyphicon-chevron-right"></i> Link</a></li>
+                            <li><a href="#"><i class="glyphicon glyphicon-user"></i> Link</a></li>
+                            <li><a href="#"><i class="glyphicon glyphicon-lock"></i> Link</a></li>
+                            <li><a href="#"><i class="glyphicon glyphicon-cog"></i> Link</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <div class="navbar navbar-custom navbar-inverse navbar-static-top" id="nav">
+        <div class="container">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+            </div>
+            <div class="collapse navbar-collapse">
+                <ul class="nav navbar-nav nav-justified">
+                    <li><a href="@Url.Action("KundeAdministrasjon","Admin")">Kundeadministrasjon</a></li>
+                    <li><a href="@Url.Action("KontoAdministrasjon","Admin")">Kontoadministrasjon</a></li>
+                    <li><a href="@Url.Action("HentEnPerson","Admin")">Transaksjonsadministrasjon</a></li>
+                    <li><a href="@Url.Action("LoggUt", "MinSide")"><span class="glyphicon glyphicon-log-in"></span> Logg ut</a></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    @RenderBody()
+</body>
+</html>
+
+
+
+
